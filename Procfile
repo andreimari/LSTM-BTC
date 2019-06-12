@@ -1,1 +1,1 @@
-web: gunicorn -b https://forecasting-btc.herokuapp.com:4000 run:app
+web: gunicorn run:app
