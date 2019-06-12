@@ -6,7 +6,7 @@ app = Flask(__name__)
 def upload_file1():
    return render_template('upload.html')
 	
-@app.route('/uploader', methods = ['GET', 'POST'])
+@app.route('https://forecasting-btc.herokuapp.com//uploader', methods = ['GET', 'POST'])
 def upload_file():
    if request.method == 'POST':
       f = request.files['file']

@@ -1,0 +1,17 @@
+diff a/Licenta2/DataProcessing.py b/Licenta2/DataProcessing.py	(rejected hunks)
+@@ -19,14 +19,12 @@
+         self.len_train = len(self.data_train)
+         self.len_test = len(self.data_test)
+         self.len_train_windows = None
+-        self.data_t1 = self.standardise_windows(self.data_train)
+-        self.data_t2 = self.standardise_windows(self.data_test)
+     
+     def get_test_data(self, seq_len, standardise):
+         data_windows = []
+         data = []
+         for i in range(self.len_test - seq_len):
+-            data_windows = self.data_t2[i:i+seq_len]
++            data_windows = self.data_test[i:i+seq_len]
+             data.append(data_windows)
+         data = np.array(data)
+         x = data[:,:-1]
