@@ -1,0 +1,17 @@
+diff a/Licenta2/main.py b/Licenta2/main.py	(rejected hunks)
+@@ -56,10 +56,12 @@
+             seq_len = config['data']['seq_len'],
+             standardise = config['data']['standardise'])
+     
+-    #predictions = model.predict_point(X_test)
+-    predictions = model.predict_full(X_test,config['data']['seq_len'] )
+-   # predictions = model.predict_point(X_test)
++    predictions = model.predict_point(X_test)
++    #predictions = model.predict_full(X_test,config['data']['seq_len'] )
+    # predictions = model.predict_seq_full(X_test, config['data']['seq_len'])
++    
++    y_test = Data.standardise_windows(None, data = y_test, hint=2)
++    predictions = Data.standardise_windows(None, data = predictions, hint=2)
+     plot_simple(predictions, y_test)
+     
+     
