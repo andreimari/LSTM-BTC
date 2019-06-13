@@ -15,7 +15,7 @@ def upload_file():
       f = request.files['file']
       f.save(secure_filename(f.filename))
       print(f.filename)
-      return send_file(f.filename)
+      return f.filename
 		
 if __name__ == '__main__':
    app.run(host= '0.0.0.0', debug = True)
