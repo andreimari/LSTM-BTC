@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from flask_restful import Api, Resource, reqparse 
 
 from werkzeug import secure_filename
@@ -15,7 +15,7 @@ def upload_file():
       f = request.files['file']
       f.save(secure_filename(f.filename))
       print(f.filename)
-      return f.filename
+      return send_file(f.filename)
 		
 if __name__ == '__main__':
    app.run(host= '0.0.0.0', debug = True)
