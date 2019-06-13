@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request
+from flask_restful import Api, Resource, reqparse 
+
 from werkzeug import secure_filename
 app = Flask(__name__)
+api = Api(app) 
 
-@app.route('/upload')
+@app.route('/home')
 def upload_file1():
    return render_template('upload.html')
 	
@@ -12,7 +15,7 @@ def upload_file():
       f = request.files['file']
       f.save(secure_filename(f.filename))
       print(f.filename)
-      return 'file uploaded successfully'
+      return f.filename
 		
 if __name__ == '__main__':
    app.run(host= '0.0.0.0', debug = True)
