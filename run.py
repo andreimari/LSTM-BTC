@@ -27,7 +27,7 @@ def upload_file():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        if file:
+        if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(MYDIR + "/" + app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('upload_file',
