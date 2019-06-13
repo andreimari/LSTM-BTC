@@ -3,8 +3,9 @@ from flask import Flask, flash, render_template, request, send_file, redirect, u
 from flask_restful import Api, Resource, reqparse 
 from werkzeug import secure_filename
 
-UPLOAD_FOLDER = '/uploads'
+MYDIR = os.path.dirname(__file__)
 ALLOWED_EXTENSIONS = set(['.json'])
+UPLOAD_FOLDER = "uploads/"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER 
@@ -28,7 +29,7 @@ def upload_file():
             return redirect(request.url)
         if file:
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(MYDIR + "/" + app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploaded_file',
                                     filename=filename))
     return '''
