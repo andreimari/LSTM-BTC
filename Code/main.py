@@ -155,7 +155,9 @@ def main():
     predicted = results[0]
     
     dataset = pd.DataFrame({'Time':time, 'RealData':real_data,'Predicted':predicted})
-    dataset.to_csv("Data/result.csv", index=False)
+    #dataset.to_csv("Data/result.csv", index=False)
+    dataset.to_json('Data/result.json')
+    
     
     return dataset
 
