@@ -7,6 +7,6 @@ Created on Sun Jun 16 23:24:21 2019
 
 import requests
 
-r = requests.post('https://forecasting-btc.herokuapp.com/titanic-survival-classification-model/predict')
+r = requests.post('https://forecasting-btc.herokuapp.com/titanic-survival-classification-model/predict', timeout=300)
 print("Andrei")
-print(r.content)
+print(r.json())
