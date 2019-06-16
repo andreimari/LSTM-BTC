@@ -1,1 +1,1 @@
-web: gunicorn webapi:show
+web: gunicorn webapi:show()
