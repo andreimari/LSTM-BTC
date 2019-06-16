@@ -125,8 +125,6 @@ def make_prediction(model, config, X_test, y_test):
 
 
 def main():
-    r = requests.post('http://localhost:5000/titanic-survival-classification-model/predict')
-    print(r.content)
     #open the config file 
     config = json.load(open('config.json','r'))
     
