@@ -136,7 +136,7 @@ def main():
     
     #process the data 
     data = DataSimple(
-            os.path.join('data',config['data']['filename']),
+            os.path.join('Code/Data',config['data']['filename']),
             config['data']['train_test_split'],
             config['data']['columns'],
             config['data']['seq_len'])
