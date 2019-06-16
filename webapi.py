@@ -9,7 +9,7 @@ application.register_blueprint(predict_api, url_prefix='/titanic-survival-classi
 # Loading home page
 @application.route('/', defaults={'page': 'index'})
 @application.route('/<page>')
-def show(page):
+def show():
         return render_template('upload.html') 
    
 # Handling 400 Error
