@@ -7,7 +7,7 @@ application = Flask(__name__)
 application.register_blueprint(predict_api, url_prefix='/titanic-survival-classification-model')
 
 # Loading home page
-@application.route('/')
+@application.route('/',defaults={'page': 'upload'})
 @application.route('/<page>')
 def show(page):
         return render_template('upload.html') 
