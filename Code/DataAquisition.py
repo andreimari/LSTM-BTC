@@ -43,7 +43,7 @@ def getDataDaily():
     
     '''update the current data list with the new values for the time columns and create the csv file'''
     data.update(df) 
-    data.to_csv('Data/data.csv',index=False)
+    data.to_csv('Code/Data/data.csv',index=False)
 
 
 '''method in which we get the data from an API on a hourly basis and store it in a CSV file'''
