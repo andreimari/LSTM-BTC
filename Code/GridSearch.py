@@ -11,6 +11,7 @@ from keras.models import Sequential
 from sklearn.model_selection import GridSearchCV
 import json
 
+#function that returns a model needed for the KerasClassifier 
 def create_model(optimizer = 'adam', loss = 'mse'):
         model = Sequential()
         config = json.load(open('config.json','r'))
@@ -33,26 +34,31 @@ def create_model(optimizer = 'adam', loss = 'mse'):
         
         return model
     
-    
+    #grid search function which uses cross-validation to get the best hyperparameters  
 def grid_search(data, config):
         print("Grid search started...")
+        #get the training data 
         X_train, y_train = data.get_training_data(seq_len = config['data']['seq_len'],
         preprocess = config['data']['preprocess'])
+        #keras classifier needed for the grid search function
         model = KerasClassifier(build_fn= create_model, verbose=0)
+        #the parameters which are going to be interexchanged 
         grid_param = { 
                 'loss' : ['mse'],
                 'optimizer': ['adam','SGD'],
                 'epochs': [3],
                 'batch_size': [16,32]
                 }
-        
+        #call the gridsearchcv
         gd_sr = GridSearchCV(estimator=model,  
                      param_grid=grid_param,
                      cv = 3,
                      n_jobs=1)
-        
+
+        #fit the model with the interexchanged parameters 
         gd_sr.fit(X_train, y_train)
         print("Grid search ended...")
         best_parameters = gd_sr.best_params_  
         print(best_parameters)
+        #return the best parameters 
         return best_parameters 
