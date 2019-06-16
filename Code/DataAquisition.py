@@ -92,7 +92,7 @@ def getDataHourly():
      
     '''update the current data list with the new values for the time columns and create the csv file'''
     data.update(df) 
-    data.to_csv('Data/data.csv',index=False)
+    data.to_csv('Code/Data/data.csv',index=False)
 
     
     
