@@ -126,7 +126,7 @@ def make_prediction(model, config, X_test, y_test):
 
 def main():
     #open the config file 
-    config = json.load(open('config.json','r'))
+    config = json.load(open('Code/config.json','r'))
     
     #check if the type 
     if config['data']['time'] == 'hourly':
