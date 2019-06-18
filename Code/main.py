@@ -5,29 +5,37 @@ Created on Mon Apr 15 20:04:14 2019
 """
 import matplotlib.pyplot as plt
 import numpy as np
-import requests
 import pandas as pd
+from keras import backend as K
 from Code.Model import Model
 from Code.DataProcessingSimple import DataSimple
 from sklearn.metrics import mean_squared_error
 from Code.DataAquisition import getDataDaily,getDataHourly
 from Code.GridSearch import grid_search
+from matplotlib import ticker
 import json
 import math
 import os
 
-
 #mehtod plotting the full and single prediction 
-def plot_simple(predicted_data,real_data):
+def plot_simple(predicted_data,real_data,time,prediction_data):
     figure = plt.figure(facecolor = 'white')
     figure.set_size_inches(18.5, 10.5)
     sub = figure.add_subplot(111)
     sub.plot(real_data, label = 'Real Data')
-    plt.plot(predicted_data, label = 'Predicted data')
-    plt.ylabel('Price')
-    figure.savefig('test2png.png', dpi=100)
+    if prediction_data == "daily":
+        plt.plot(time,predicted_data, label = 'Predicted data')
+    elif prediction_data =="hourly":
+        plt.plot(predicted_data, label = 'Predicted data')
+    plt.ylabel('Price',fontsize=20)
+    plt.xlabel('Time',fontsize=20)
+    plt.title("Single prediction",fontsize=25)
     plt.legend()
-    plt.show
+    M = 10
+    xticks = ticker.MaxNLocator(M)
+    sub.xaxis.set_major_locator(xticks)
+    figure.savefig('C:/Users/Andrei/Desktop/Licenta2/static/results.png', dpi=100)
+    plt.close()
 
 
 #method plotting the multi-sequence prediction
@@ -39,7 +47,12 @@ def plot_multiple_points(predicted_data, real_data, prediction_len):
         padding = [None for p in range(i*prediction_len)]
         plt.plot(padding + data, label = 'Predicted data')
         plt.legend()
-    plt.show()
+    plt.ylabel('Price',fontsize=20)
+    plt.xlabel('Time',fontsize=20)
+    plt.title("Multiple sequence prediction",fontsize=25)
+    figure.set_size_inches(16.5, 10.5)
+    figure.savefig('C:/Users/Andrei/Desktop/Licenta2/static/results.png', dpi=100)
+    plt.close()
 
 
 #training in memory 
@@ -89,7 +102,7 @@ def outMemory(data,model,config,epochs = None, batch_size = None):
     
         
     #method which deals with the prediction side
-def make_prediction(model, config, X_test, y_test):
+def make_prediction(model, config, X_test, y_test, time):
     
     #check the type of prediction 
     prediction_type = config["data"]["prediction_type"]
@@ -112,10 +125,10 @@ def make_prediction(model, config, X_test, y_test):
     
     #plotting of the results and outoutting the score of the prediction 
     if prediction_type == "single":
-        plot_simple(prediction[:,0], y_test[:,0])
+        plot_simple(prediction[:,0], y_test[:,0], time,config['data']['time'])
         print(math.sqrt(mean_squared_error(y_test[:,0],prediction[:,0])))
     elif prediction_type == "full":
-        plot_simple(prediction[:,0], y_test[:,0])
+        plot_simple(prediction[:,0], y_test[:,0], time, config['data']['time'])
         print(math.sqrt(mean_squared_error(y_test[:,0],prediction[:,0])))
     elif prediction_type == "multi_sequences":
         plot_multiple_points(prediction[:,0].tolist(),y_test[:,0],config['data']['seq_len'])
@@ -126,7 +139,7 @@ def make_prediction(model, config, X_test, y_test):
 
 def main():
     #open the config file 
-    config = json.load(open('Code/config.json','r'))
+    config = json.load(open('C:/Users/Andrei/Desktop/Licenta2/Upload/config.json','r'))
     
     #check if the type 
     if config['data']['time'] == 'hourly':
@@ -172,16 +185,21 @@ def main():
             preprocess = config['data']['preprocess'])
     
     #call the prediction function and store the data in real_data and predicted_data
-    results = make_prediction(model, config, X_test, y_test)
-    real_data = results[1]
-    predicted = results[0]
+    results = make_prediction(model, config, X_test, y_test, time)
     
-    #save the output as a .csv or .json file 
-    dataset = pd.DataFrame({'Time':time, 'RealData':real_data,'Predicted':predicted})
-    #dataset.to_csv("Data/result.csv", index=False)
-    dataset.to_json('Data/result.json')
-    
-    return dataset
+   #multi sequences does not follow the same pattern
+    if config['data']['prediction_type'] == 'multi_sequences':
+        K.clear_session()
+        return None
+    else: 
+        real_data = results[1]
+        predicted = results[0]
+        #save the output as a .csv or .json file 
+        dataset = pd.DataFrame({'Time':time, 'RealData':real_data,'Predicted':predicted})
+        dataset.to_csv("Code/Data/result.csv", index=False)
+        #dataset.to_json('Code/Data/result.json')
+        K.clear_session()
+        return dataset
 
 #call the main function 
 if __name__ == "__main__":

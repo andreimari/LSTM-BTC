@@ -1,9 +1,27 @@
+
 <html>
+<head>
+<link rel="stylesheet" href="static/styles.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+</head>
    <body>
-      <form action = "https://forecasting-btc.herokuapp.com/uploader" method = "POST" 
+   <div id="whole">
+   <h1>Bitcoin forecasting</h1>
+   <h3>Please input a config file in json format</h3>
+   <div class="center">
+      <form action = "http://localhost:5000/uploader" method = "POST" 
          enctype = "multipart/form-data">
          <input type = "file" name = "file" />
-         <input type = "submit"/>
+         <input type="submit"  value="Submit" style="width:100px;" onclick="$('#loading').show();$('#whole').hide();$('body').css('background-image','url(static/image2.jpg')"/>
       </form>
-   </body>
+      </div>
+    </div>
+      <div id="loading" style="display:none;">
+      <img src="static/loading.gif" alt="Loading" />
+      <h3>The model is trained...</h3>
+      <h3>The results will soon appear</h3>
+      </div>
+	 </body>
 </html>
+
+<!-- use jquery to implement loading gif image -->

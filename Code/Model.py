@@ -45,7 +45,7 @@ class Model():
         #train the in memory model 
     def train(self, X, y, epochs, batch_size, save_dir):
         #early stopping used for train stopping when a monitored quantity stopped improving
-        #modal_checkpoint saves model after eah epoch
+        #modal_checkpoint saves model after each epoch
         callbacks = [EarlyStopping(monitor = 'loss', patience =2), ModelCheckpoint(filepath = 'model1', monitor = 'val_loss', save_best_only=True)]
         #fit and train the model 
         self.model.fit(X, y, epochs = epochs, batch_size = batch_size, callbacks = callbacks)
@@ -54,7 +54,7 @@ class Model():
         #train the out of memory model 
     def train_generator(self, data_gen, epochs, batch_size, steps_per_epoch, save_dir):
         #save the model 
-        save_name = os.path.join(save_dir,'%s-e%s.h5' % (dt.now().strftime('%d%m%Y-%H%M%S'), str(epochs)))
+        save_name = os.path.join('Code',save_dir,'%s-e%s.h5' % (dt.now().strftime('%d%m%Y-%H%M%S'), str(epochs)))
         #use callback to save model after each epoch
         callbacks = [ModelCheckpoint(filepath = save_name, monitor = 'loss', save_best_only = True)]
         self.model.fit_generator(data_gen, steps_per_epoch = steps_per_epoch, epochs = epochs, callbacks = callbacks, workers=1)

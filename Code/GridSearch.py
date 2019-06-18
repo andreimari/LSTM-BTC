@@ -14,7 +14,7 @@ import json
 #function that returns a model needed for the KerasClassifier 
 def create_model(optimizer = 'adam', loss = 'mse'):
         model = Sequential()
-        config = json.load(open('config.json','r'))
+        config = json.load(open('C:/Users/Andrei/Desktop/Licenta2/Upload/config.json','r'))
         for layer in config['model']['layers']:
             neurons = layer['neurons'] if 'neurons' in layer else 0
             dropout = layer['dropout'] if 'dropout' in layer else 0
@@ -44,9 +44,9 @@ def grid_search(data, config):
         model = KerasClassifier(build_fn= create_model, verbose=0)
         #the parameters which are going to be interexchanged 
         grid_param = { 
-                'loss' : ['mse'],
-                'optimizer': ['adam','SGD'],
-                'epochs': [3],
+                'loss' : ['mse','mean_absolute_error','mean_squared_logarithmic_error'],
+                'optimizer': ['adam','SGD','RMSprop'],
+                'epochs': [2,3,5],
                 'batch_size': [16,32]
                 }
         #call the gridsearchcv
