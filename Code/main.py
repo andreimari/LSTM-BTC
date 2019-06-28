@@ -29,7 +29,7 @@ def plot_simple(predicted_data,real_data,time,prediction_data):
         plt.plot(predicted_data, label = 'Predicted data')
     plt.ylabel('Price',fontsize=20)
     plt.xlabel('Time',fontsize=20)
-    plt.title("Single prediction",fontsize=25)
+    plt.title("Full prediction",fontsize=25)
     plt.legend()
     M = 10
     xticks = ticker.MaxNLocator(M)
